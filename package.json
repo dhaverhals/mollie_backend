@@ -19,6 +19,6 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "mollie-api-node": "^1.3.6"
+    "mollie-api-node": "^2.0.0-alpha.1"
   }
 }
