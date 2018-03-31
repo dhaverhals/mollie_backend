@@ -31,6 +31,6 @@ app.get('/', (req, res) => {
     });
 });
 
-api.listen(8080, () => {
+app.listen(8080, () => {
     console.log("started listening on port: 8080" )
 })
