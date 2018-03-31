@@ -13,9 +13,12 @@ app.use(cors(corsOptions));
 
 const _mollie = Mollie({ apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq' });
 
-app.get('/', (req, res) => {
+app.get('/:name/:test', (req, res) => {
   const orderId = new Date().getTime();
 
+  console.log('name: ' + req.params['name'])
+  console.log('test: ' + req.params['test'])
+  return 0;
   _mollie.payments.create({
     amount: 10.00,
     description: 'New payment',
@@ -24,7 +27,7 @@ app.get('/', (req, res) => {
     metadata: { orderId },
 }, (payment) => {
       // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-      res.send(payment);
+      res.send({payment: ""});
   }, (error) => {
       // Do some proper error handling.
       res.send(error);
