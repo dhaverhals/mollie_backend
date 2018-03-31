@@ -30,3 +30,7 @@ app.get('/', (req, res) => {
       res.send(error);
     });
 });
+
+api.listen(8080, () => {
+    console.log("started listening on port: 8080" )
+})
