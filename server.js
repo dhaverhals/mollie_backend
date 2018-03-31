@@ -1,13 +1,8 @@
-Mollie = require('mollie-api-node');
-express = require('express');
-cors = require('cors');
-
+const Mollie = require('mollie-api-node');
 const express = require('express');
-const mollie = require('mollie-api-node');
+const cors = require('cors');
 
 const app = express();
-
-const cors = require('cors')
 
 var corsOptions = {
   origin: 'http://example.org',
@@ -16,12 +11,12 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-const mollie = Mollie({ apiKey: 'test_buC3bBQfSQhd4dDUeMctJjDCn3GhP4' });
+const _mollie = Mollie({ apiKey: 'test_buC3bBQfSQhd4dDUeMctJjDCn3GhP4' });
 
 app.get('/', (req, res) => {
   const orderId = new Date().getTime();
 
-  mollie.payments.create({
+  _mollie.payments.create({
     amount: 10.00,
     description: 'New payment',
     redirectUrl: `https://example.org/redirect?orderId=${orderId}`,
