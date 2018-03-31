@@ -11,7 +11,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-const _mollie = Mollie({ apiKey: 'test_buC3bBQfSQhd4dDUeMctJjDCn3GhP4' });
+const _mollie = Mollie({ apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq' });
 
 app.get('/', (req, res) => {
   const orderId = new Date().getTime();
