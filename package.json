@@ -1,0 +1,24 @@
+{
+  "name": "mollie_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhaverhals/mollie_backend.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dhaverhals/mollie_backend/issues"
+  },
+  "homepage": "https://github.com/dhaverhals/mollie_backend#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mollie-api-node": "^1.3.6"
+  }
+}
