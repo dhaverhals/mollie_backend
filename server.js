@@ -17,7 +17,7 @@ app.get('/:name/:test', (req, res) => {
   const orderId = new Date().getTime();
 
   console.log('name: ' + req.params['name'])
-  console.log('test: ' + req.params['test'])
+  console.log('testing: ' + req.params['test'])
   return 0;
   _mollie.payments.create({
     amount: 10.00,
