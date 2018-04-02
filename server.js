@@ -26,7 +26,11 @@ app.get('/:trail/:user', (req, res) => {
     const orderId = new Date().getTime();
     const trail = req.params['trail'].replace(/_/g, ' ');
     const user = req.params['user'];
+
     const selectedIssuer = req.query.issuer;
+    const hire = req.query.hire;
+    const update = req.query.update;
+    const amount = req.query.amount;
 
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
@@ -48,20 +52,23 @@ app.get('/:trail/:user', (req, res) => {
     console.log('user: ' + user);
     console.log('trail: ' + trail);
 
+    const total = update ? 35 : (amount + (hire ? 35 : 0));
+    const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${orderId}` : (hire ?  `Indie Trails | ${trail} met laptop: ${orderId}` :  `Indie Trails | ${trail} zonder laptop: ${orderId}`)
+
     _mollie.payments.create({
-        amount: 10.00,
-        description: `Indie Trails | ${trail}: ${orderId}`,
+        amount: total,
+        description: descr,
         redirectUrl: `http://localhost:4200/redirect/${orderId}`,
         webhookUrl: `https://indietrails.nl/webhook/${orderId}`,
         metadata: {
-            orderId, user
+            orderId, user, hire, update, amount: total
         },
         method: 'ideal',
         issuer: selectedIssuer,
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.send({order: orderid, url: payment.getPaymentUrl() });
+        res.send({amount: total, order: orderid, url: payment.getPaymentUrl() });
     }).catch((error) => {
         console.log("payment error");
         // Do some proper error handling.
