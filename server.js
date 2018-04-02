@@ -102,6 +102,30 @@ app.get('/:trail/:explorer', (req, res) => {
     });
 });
 
+app.get('/:order', (req, res) => {
+    const order = req.params['order'];
+    mollie.payments.get(order, function(payment) {
+        if (payment.error) {
+            console.error(payment.error);
+            return res.end();
+        }
+
+        if (payment.isPaid()) {
+            res.send({
+                order,
+                state: 'paid'
+            })
+
+        } else if (!payment.isOpen()) {
+            res.send({
+                order,
+                state: 'closed'
+            })
+        }
+    });
+});
+
+
 app.listen(8080, () => {
     console.log("started listening on port: 8080")
     console.log('...................');
