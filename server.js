@@ -28,10 +28,12 @@ app.get('/:trail/:user', (req, res) => {
     const user = req.params['user'];
 
     const selectedIssuer = req.query.issuer;
-    const hire = req.query.hire;
+    const hire = req.query.hire == "true";
     const update = req.query.update == "true";
-    const amount = req.query.amount == "true";
+    const amount = parseInt(req.query.amount);
 
+    console.log("update: " + update);
+    console.log("update: " + update);
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
         _mollie.issuers.all()
