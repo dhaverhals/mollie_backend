@@ -30,10 +30,7 @@ app.get('/:trail/:user', (req, res) => {
     if (!selectedIssuer) {
         _mollie.issuers.all()
             .then((issuers) => {
-                res.send({html: `<form>
-                                      <select name="issuer">${issuers.map(issuer => `<option value="${issuer.id}">${issuer.name}</option>`)}</select>
-                                      <button>Select</button>
-                                </form>`);
+                res.send({issuers: issuers);
                 }
             })
             .catch((error) => {
