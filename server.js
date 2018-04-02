@@ -83,6 +83,7 @@ app.get('/:trail/:explorer', (req, res) => {
         issuer: selectedIssuer,
     }).then((payment) => {
         console.log("payment created");
+        console.log(payment);
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
         res.send({
             trail: trailId,
