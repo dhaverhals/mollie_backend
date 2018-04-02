@@ -5,11 +5,12 @@ const cors = require('cors');
 const app = express();
 
 var corsOptions = {
-    origin: 'indietrails.nl',
+    origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 app.use(cors(corsOptions));
+
 const _mollie = Mollie({
     apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq'
 });
@@ -53,7 +54,7 @@ app.get('/:trail/:user', (req, res) => {
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.redirect(payment.getPaymentUrl());
+        res.send({paymenturl: payment.getPaymentUrl()});
     }).catch((error) => {
         console.log("payment error");
         // Do some proper error handling.
