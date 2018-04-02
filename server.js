@@ -29,8 +29,8 @@ app.get('/:trail/:user', (req, res) => {
 
     const selectedIssuer = req.query.issuer;
     const hire = req.query.hire;
-    const update = req.query.update;
-    const amount = req.query.amount;
+    const update = req.query.update == "true";
+    const amount = req.query.amount == "true";
 
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
