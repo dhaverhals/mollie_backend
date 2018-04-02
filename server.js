@@ -49,7 +49,7 @@ app.get('/:trail/:user', (req, res) => {
         return;
     }
 
-    console.log('........................');
+    console.log('.................');
     console.log('Creating payment');
     console.log('user: ' + user);
     console.log('trail: ' + trail);
