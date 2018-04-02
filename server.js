@@ -78,6 +78,7 @@ app.get('/:trail/:user', (req, res) => {
         res.send({amount: total, order: orderid, url: payment.getPaymentUrl() });
     }).catch((error) => {
         console.log("payment error");
+        console.log(error);
         // Do some proper error handling.
         res.send(error);
     });
