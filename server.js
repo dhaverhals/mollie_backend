@@ -47,6 +47,8 @@ app.get('/:trail/:user', (req, res) => {
     redirectUrl: `http://localhost:4200/redirect/${orderId}`,
     webhookUrl: `https://indietrails.nl/redirect/${orderId}`,
     metadata: { orderId },
+    method: 'ideal',
+    issuer: selectedIssuer,
 }, (payment) => {
     console.log(payment);
       // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
