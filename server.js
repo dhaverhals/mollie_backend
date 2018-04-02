@@ -32,8 +32,6 @@ app.get('/:trail/:user', (req, res) => {
     const update = req.query.update == "true";
     const amount = parseInt(req.query.amount);
 
-    console.log("update: " + update);
-    console.log("update: " + update);
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
         _mollie.issuers.all()
@@ -54,8 +52,15 @@ app.get('/:trail/:user', (req, res) => {
     console.log('user: ' + user);
     console.log('trail: ' + trail);
 
+    console.log('...................');
+        console.log("hire: " + hire);
+        console.log("update: " + update);
+        console.log("amount: " + amount);
+        console.log('...................');
+
     const total = update ? 35 : (amount + (hire ? 35 : 0));
     const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${orderId}` : (hire ?  `Indie Trails | ${trail} met laptop: ${orderId}` :  `Indie Trails | ${trail} zonder laptop: ${orderId}`)
+    console.log("total: " + total);
 
     _mollie.payments.create({
         amount: total,
