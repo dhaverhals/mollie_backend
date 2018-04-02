@@ -10,8 +10,9 @@ var corsOptions = {
 }
 
 app.use(cors(corsOptions));
-
 const _mollie = Mollie({ apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq' });
+
+
 
 app.get('/:trail/:user', (req, res) => {
   const orderId = new Date().getTime();
@@ -20,6 +21,26 @@ app.get('/:trail/:user', (req, res) => {
   console.log('Creating payment');
   console.log('user: ' + req.params['user']);
   console.log('trail: ' + trail);
+
+  const selectedIssuer = req.query.issuer;
+
+  // Show a payment screen where the consumer can choose its issuing bank.
+  if (!selectedIssuer) {
+    mollieClient.issuers.all()
+      .then((issuers) => {
+        res.send(`<form>
+          <select name="issuer">${issuers.map(issuer => `<option value="${issuer.id}">${issuer.name}</option>`)}</select>
+          <button>Select</button>
+        </form>`);
+      })
+      .catch((error) => {
+        // Do some proper error handling.
+        res.send(error);
+      });
+
+    return;
+  }
+
   _mollie.payments.create({
     amount: 10.00,
     description: `Indie Trails | ${trail}: ${orderId}`,
@@ -27,6 +48,7 @@ app.get('/:trail/:user', (req, res) => {
     webhookUrl: `http://localhost:4200/webhook/${orderId}`,
     metadata: { orderId },
 }, (payment) => {
+    console.log(payment);
       // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
       res.redirect(payment.getPaymentUrl());
   }, (error) => {
