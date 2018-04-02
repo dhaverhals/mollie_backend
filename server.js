@@ -45,7 +45,7 @@ app.get('/:trail/:user', (req, res) => {
     amount: 10.00,
     description: `Indie Trails | ${trail}: ${orderId}`,
     redirectUrl: `http://localhost:4200/redirect/${orderId}`,
-    webhookUrl: `http://localhost:4200/webhook/${orderId}`,
+    webhookUrl: `https://indietrails.nl/redirect/${orderId}`,
     metadata: { orderId },
 }, (payment) => {
     console.log(payment);
