@@ -70,7 +70,7 @@ app.get('/:trail/:explorer', (req, res) => {
         amount: total,
         description: descr,
         redirectUrl: `http://localhost:4200/redirect/${order}`,
-        webhookUrl: `https://dennishaverhals.nl/mollie/webhook/${order}`,
+        webhookUrl: `https://dennishaverhals.nl/mollie/webhook/${order}/${trailId}/${explorer}/`,
         metadata: {
             order,
             explorer,
