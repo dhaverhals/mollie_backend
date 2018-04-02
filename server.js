@@ -104,7 +104,7 @@ app.get('/:trail/:explorer', (req, res) => {
 
 app.get('/:order', (req, res) => {
     const order = req.params['order'];
-    mollie.payments.get(order, function(payment) {
+    _mollie.payments.get(order, function(payment) {
         if (payment.error) {
             console.error(payment.error);
             return res.end();
