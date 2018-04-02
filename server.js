@@ -19,10 +19,6 @@ const _mollie = Mollie({
 app.get('/:trail/:user', (req, res) => {
     const orderId = new Date().getTime();
     const trail = req.params['trail'].replace(/_/g, ' ');
-    console.log('....................');
-    console.log('Creating payment');
-    console.log('user: ' + req.params['user']);
-    console.log('trail: ' + trail);
 
     const selectedIssuer = req.query.issuer;
 
@@ -30,6 +26,7 @@ app.get('/:trail/:user', (req, res) => {
     if (!selectedIssuer) {
         _mollie.issuers.all()
             .then((issuers) => {
+                console.log()
                 res.send({issuers: issuers});
                 }
             })
@@ -40,6 +37,11 @@ app.get('/:trail/:user', (req, res) => {
 
         return;
     }
+
+    console.log('....................');
+    console.log('Creating payment');
+    console.log('user: ' + req.params['user']);
+    console.log('trail: ' + trail);
 
     _mollie.payments.create({
         amount: 10.00,
@@ -52,7 +54,7 @@ app.get('/:trail/:user', (req, res) => {
         method: 'ideal',
         issuer: selectedIssuer,
     }).then((payment) => {
-        console.log(payment);
+        console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
         res.redirect(payment.getPaymentUrl());
     }).catch((error) => {
