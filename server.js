@@ -25,7 +25,7 @@ const _mollie = Mollie({
 app.get('/:trail/:user', (req, res) => {
     const orderId = new Date().getTime();
     const trail = req.params['trail'].replace(/_/g, ' ');
-
+    const user = req.params['user'];
     const selectedIssuer = req.query.issuer;
 
     // Show a payment screen where the consumer can choose its issuing bank.
@@ -45,7 +45,7 @@ app.get('/:trail/:user', (req, res) => {
 
     console.log('........................');
     console.log('Creating payment');
-    console.log('user: ' + req.params['user']);
+    console.log('user: ' + user);
     console.log('trail: ' + trail);
 
     _mollie.payments.create({
@@ -54,14 +54,14 @@ app.get('/:trail/:user', (req, res) => {
         redirectUrl: `http://localhost:4200/redirect/${orderId}`,
         webhookUrl: `https://indietrails.nl/redirect/${orderId}`,
         metadata: {
-            orderId
+            orderId, user
         },
         method: 'ideal',
         issuer: selectedIssuer,
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.send({url: payment.getPaymentUrl() });
+        res.send({order: orderid, url: payment.getPaymentUrl() });
     }).catch((error) => {
         console.log("payment error");
         // Do some proper error handling.
