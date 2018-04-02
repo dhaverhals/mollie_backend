@@ -49,11 +49,11 @@ app.get('/:trail/:user', (req, res) => {
     metadata: { orderId },
     method: 'ideal',
     issuer: selectedIssuer,
-}, (payment) => {
+}).then((payment) => {
     console.log(payment);
       // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
       res.redirect(payment.getPaymentUrl());
-  }, (error) => {
+  }).catch((error) => {
       // Do some proper error handling.
       res.send(error);
     });
