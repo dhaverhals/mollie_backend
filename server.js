@@ -86,4 +86,8 @@ app.get('/:trail/:user', (req, res) => {
 
 app.listen(8080, () => {
     console.log("started listening on port: 8080")
+    console.log('...................');
+    console.log('...................');
+    console.log('...................');
+    console.log('...................');
 })
