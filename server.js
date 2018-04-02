@@ -61,7 +61,7 @@ app.get('/:trail/:user', (req, res) => {
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.redirect(payment.getPaymentUrl());
+        res.send({url: payment.getPaymentUrl() });
     }).catch((error) => {
         console.log("payment error");
         // Do some proper error handling.
