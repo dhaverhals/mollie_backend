@@ -30,7 +30,7 @@ app.get('/:trail/:user', (req, res) => {
     if (!selectedIssuer) {
         _mollie.issuers.all()
             .then((issuers) => {
-                res.send({issuers: issuers);
+                res.send({issuers: issuers});
                 }
             })
             .catch((error) => {
