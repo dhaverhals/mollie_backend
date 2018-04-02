@@ -28,7 +28,7 @@ app.get('/:trail/:user', (req, res) => {
     const user = req.params['user'];
 
     const selectedIssuer = req.query.issuer;
-    const hire = req.query.hire == "true";
+    const hire = parseInt(req.query.hire);
     const update = req.query.update == "true";
     const amount = parseInt(req.query.amount);
     // Show a payment screen where the consumer can choose its issuing bank.
@@ -57,24 +57,24 @@ app.get('/:trail/:user', (req, res) => {
         console.log("amount: " + amount);
         console.log('...................');
 
-    const total = update ? 35 : (amount + (hire ? 35 : 0));
-    const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${orderId}` : (hire ?  `Indie Trails | ${trail} met laptop: ${orderId}` :  `Indie Trails | ${trail} zonder laptop: ${orderId}`)
+    const total = update ? hire : (amount + hire);
+    const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${orderId}` : (hire != 0 ?  `Indie Trails | ${trail} met laptop: ${orderId}` :  `Indie Trails | ${trail} zonder laptop: ${orderId}`)
     console.log("total: " + total);
 
     _mollie.payments.create({
         amount: total,
         description: descr,
         redirectUrl: `http://localhost:4200/redirect/${orderId}`,
-        webhookUrl: `https://indietrails.nl/webhook/${orderId}`,
+        webhookUrl: `https://dennishaverhals.nl/mollie/webhook/${orderId}`,
         metadata: {
-            orderId, user, hire, update
+            orderId, user, trail, hire, update
         },
         method: 'ideal',
         issuer: selectedIssuer,
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.send({amount: total, order: orderId, url: payment.getPaymentUrl() });
+        res.send({amount: total, order: orderId, trail, user, hire, update, url: payment.getPaymentUrl() });
     }).catch((error) => {
         console.log("payment error");
         console.log(error);
