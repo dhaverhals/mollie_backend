@@ -28,7 +28,6 @@ app.get('/:trail/:user', (req, res) => {
             .then((issuers) => {
                 console.log()
                 res.send({issuers: issuers});
-                }
             })
             .catch((error) => {
                 // Do some proper error handling.
