@@ -31,7 +31,6 @@ app.get('/:trail/:user', (req, res) => {
     const hire = req.query.hire == "true";
     const update = req.query.update == "true";
     const amount = parseInt(req.query.amount);
-
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
         _mollie.issuers.all()
@@ -68,7 +67,7 @@ app.get('/:trail/:user', (req, res) => {
         redirectUrl: `http://localhost:4200/redirect/${orderId}`,
         webhookUrl: `https://indietrails.nl/webhook/${orderId}`,
         metadata: {
-            orderId, user, hire, update, amount: total
+            orderId, user, hire, update
         },
         method: 'ideal',
         issuer: selectedIssuer,
