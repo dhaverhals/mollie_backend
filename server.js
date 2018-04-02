@@ -13,21 +13,22 @@ app.use(cors(corsOptions));
 
 const _mollie = Mollie({ apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq' });
 
-app.get('/:name/:test', (req, res) => {
+app.get('/:trail/:user', (req, res) => {
   const orderId = new Date().getTime();
-
-  console.log('name: ' + req.params['name'])
-  console.log('testing: ' + req.params['test'])
-  return 0;
+  const trail = req.params['trail'].replace('_', ' ');
+  console.log('....................');
+  console.log('Creating payment');
+  console.log('user: ' + req.params['user']);
+  console.log('trail: ' + trail);
   _mollie.payments.create({
     amount: 10.00,
-    description: 'New payment',
-    redirectUrl: `https://example.org/redirect?orderId=${orderId}`,
-    webhookUrl: `http://example.org/webhook?orderId=${orderId}`,
+    description: `Indie Trails | ${trail}: ${orderId}`,
+    redirectUrl: `http://localhost:4200/redirect/${orderId}`,
+    webhookUrl: `http://localhost:4200/webhook/${orderId}`,
     metadata: { orderId },
 }, (payment) => {
       // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-      res.send({payment: ""});
+      res.redirect(payment.getPaymentUrl());
   }, (error) => {
       // Do some proper error handling.
       res.send(error);
