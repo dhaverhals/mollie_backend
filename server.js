@@ -22,15 +22,17 @@ const _mollie = Mollie({
     apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq'
 });
 
-app.get('/:trail/:user', (req, res) => {
-    const orderId = new Date().getTime();
+app.get('/:trail/:explorer', (req, res) => {
+    const order = new Date().getTime();
     const trail = req.params['trail'].replace(/_/g, ' ');
-    const user = req.params['user'];
+    const explorer = req.params['explorer'];
 
     const selectedIssuer = req.query.issuer;
+    const trailId = req.query.trail.replace(/_/g, ' ');
+
+    const amount = parseInt(req.query.amount);
     const hire = parseInt(req.query.hire);
     const update = req.query.update == "true";
-    const amount = parseInt(req.query.amount);
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
         _mollie.issuers.all()
@@ -48,7 +50,7 @@ app.get('/:trail/:user', (req, res) => {
 
     console.log('...................');
     console.log('Creating payment');
-    console.log('user: ' + user);
+    console.log('explorer: ' + explorer);
     console.log('trail: ' + trail);
 
     console.log('...................');
@@ -64,17 +66,17 @@ app.get('/:trail/:user', (req, res) => {
     _mollie.payments.create({
         amount: total,
         description: descr,
-        redirectUrl: `http://localhost:4200/redirect/${orderId}`,
-        webhookUrl: `https://dennishaverhals.nl/mollie/webhook/${orderId}`,
+        redirectUrl: `http://localhost:4200/redirect/${order}`,
+        webhookUrl: `https://dennishaverhals.nl/mollie/webhook/${order}`,
         metadata: {
-            orderId, user, trail, hire, update
+            order, explorer, trailId, amount, hire, update
         },
         method: 'ideal',
         issuer: selectedIssuer,
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.send({amount: total, order: orderId, trail, user, hire, update, url: payment.getPaymentUrl() });
+        res.send({trail: trailId, explorer, order, total, amount, hire, update, url: payment.getPaymentUrl() });
     }).catch((error) => {
         console.log("payment error");
         console.log(error);
