@@ -16,7 +16,7 @@ const _mollie = Mollie({ apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq' });
 
 app.get('/:trail/:user', (req, res) => {
   const orderId = new Date().getTime();
-  const trail = req.params['trail'].replaceAll('_', ' ');
+  const trail = req.params['trail'].replace(/_/g, ' ');
   console.log('....................');
   console.log('Creating payment');
   console.log('user: ' + req.params['user']);
