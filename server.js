@@ -13,7 +13,7 @@ app.use(cors(corsOptions));
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
-    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 })
@@ -23,22 +23,16 @@ const _mollie = Mollie({
 });
 
 app.get('/:trail/:explorer', (req, res) => {
-    const order = new Date().getTime();
-    const trail = req.params['trail'].replace(/_/g, ' ');
-    const explorer = req.params['explorer'];
 
     const selectedIssuer = req.query.issuer;
-    const trailId = req.query.trail.replace(/_/g, ' ');
-
-    const amount = parseInt(req.query.amount);
-    const hire = parseInt(req.query.hire);
-    const update = req.query.update == "true";
     // Show a payment screen where the consumer can choose its issuing bank.
     if (!selectedIssuer) {
         _mollie.issuers.all()
             .then((issuers) => {
                 console.log()
-                res.send({issuers: issuers});
+                res.send({
+                    issuers: issuers
+                });
             })
             .catch((error) => {
                 // Do some proper error handling.
@@ -48,19 +42,28 @@ app.get('/:trail/:explorer', (req, res) => {
         return;
     }
 
+    const order = new Date().getTime();
+    const trail = req.params['trail'].replace(/_/g, ' ');
+    const explorer = req.params['explorer'];
+    const trailId = req.query.trail.replace(/_/g, ' ');
+
+    const amount = parseInt(req.query.amount);
+    const hire = parseInt(req.query.hire);
+    const update = req.query.update == "true";
+
     console.log('...................');
     console.log('Creating payment');
     console.log('explorer: ' + explorer);
     console.log('trail: ' + trail);
 
     console.log('...................');
-        console.log("hire: " + hire);
-        console.log("update: " + update);
-        console.log("amount: " + amount);
-        console.log('...................');
+    console.log("hire: " + hire);
+    console.log("update: " + update);
+    console.log("amount: " + amount);
+    console.log('...................');
 
     const total = update ? hire : (amount + hire);
-    const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${orderId}` : (hire != 0 ?  `Indie Trails | ${trail} met laptop: ${orderId}` :  `Indie Trails | ${trail} zonder laptop: ${orderId}`)
+    const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${orderId}` : (hire != 0 ? `Indie Trails | ${trail} met laptop: ${orderId}` : `Indie Trails | ${trail} zonder laptop: ${orderId}`)
     console.log("total: " + total);
 
     _mollie.payments.create({
@@ -69,14 +72,28 @@ app.get('/:trail/:explorer', (req, res) => {
         redirectUrl: `http://localhost:4200/redirect/${order}`,
         webhookUrl: `https://dennishaverhals.nl/mollie/webhook/${order}`,
         metadata: {
-            order, explorer, trailId, amount, hire, update
+            order,
+            explorer,
+            trailId,
+            amount,
+            hire,
+            update
         },
         method: 'ideal',
         issuer: selectedIssuer,
     }).then((payment) => {
         console.log("payment created");
         // Redirect the consumer to complete the payment using `payment.getPaymentUrl()`.
-        res.send({trail: trailId, explorer, order, total, amount, hire, update, url: payment.getPaymentUrl() });
+        res.send({
+            trail: trailId,
+            explorer,
+            order,
+            total,
+            amount,
+            hire,
+            update,
+            url: payment.getPaymentUrl()
+        });
     }).catch((error) => {
         console.log("payment error");
         console.log(error);
