@@ -99,13 +99,15 @@ app.get('/:trail/:explorer', (req, res) => {
         console.log("payment error");
         console.log(error);
         // Do some proper error handling.
-        res.send(error);
+        res.send({create_error: error});
     });
 });
 
 app.get('/:order', (req, res) => {
     const order = req.params['order'];
-    _mollie.payments.get(order).then((payment) => {
+    const _payment = req.query.payment;
+
+    _mollie.payments.get(_payment).then((payment) => {
 
         if (payment.isPaid()) {
             res.send({
@@ -123,7 +125,7 @@ app.get('/:order', (req, res) => {
         console.log("payment error");
         console.log(error);
         // Do some proper error handling.
-        res.send(error);
+        res.send({get_error: error, order, _payment});
     });
 });
 
