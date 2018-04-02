@@ -16,7 +16,7 @@ const _mollie = Mollie({ apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq' });
 
 app.get('/:trail/:user', (req, res) => {
   const orderId = new Date().getTime();
-  const trail = req.params['trail'].replace('_', ' ');
+  const trail = req.params['trail'].replaceAll('_', ' ');
   console.log('....................');
   console.log('Creating payment');
   console.log('user: ' + req.params['user']);
@@ -26,7 +26,7 @@ app.get('/:trail/:user', (req, res) => {
 
   // Show a payment screen where the consumer can choose its issuing bank.
   if (!selectedIssuer) {
-    mollieClient.issuers.all()
+    _mollie.issuers.all()
       .then((issuers) => {
         res.send(`<form>
           <select name="issuer">${issuers.map(issuer => `<option value="${issuer.id}">${issuer.name}</option>`)}</select>
