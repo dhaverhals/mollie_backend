@@ -104,11 +104,7 @@ app.get('/:trail/:explorer', (req, res) => {
 
 app.get('/:order', (req, res) => {
     const order = req.params['order'];
-    _mollie.payments.get(order, function(payment) {
-        if (payment.error) {
-            console.error(payment.error);
-            return res.end();
-        }
+    _mollie.payments.get(order).then((payment) => {
 
         if (payment.isPaid()) {
             res.send({
@@ -122,6 +118,11 @@ app.get('/:order', (req, res) => {
                 state: 'closed'
             })
         }
+    }).catch((error) => {
+        console.log("payment error");
+        console.log(error);
+        // Do some proper error handling.
+        res.send(error);
     });
 });
 
