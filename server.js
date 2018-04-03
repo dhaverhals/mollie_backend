@@ -54,6 +54,8 @@ app.get('/:trail/:explorer', (req, res) => {
     console.log('...................');
     console.log('Creating payment');
     console.log('explorer: ' + explorer);
+    console.log("order: " + order);
+    console.log("trailId: " + trailId);
     console.log('trail: ' + trail);
 
     console.log('...................');
