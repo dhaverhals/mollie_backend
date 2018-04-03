@@ -49,7 +49,7 @@ app.get('/:trail/:explorer', (req, res) => {
 
     const amount = parseInt(req.query.amount);
     const hire = parseInt(req.query.hire);
-    const update = req.query.update;
+    const update = req.query.update == "true";
 
     console.log('...................');
     console.log('Creating payment');
