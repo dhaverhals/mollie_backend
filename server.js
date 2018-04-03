@@ -67,7 +67,7 @@ app.get('/:trail/:explorer', (req, res) => {
     const total = update ? hire : (amount + hire);
     const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${order}` : (hire != 0 ? `Indie Trails | ${trail} met laptop: ${order}` : `Indie Trails | ${trail} zonder laptop: ${order}`)
     console.log("total: " + total);
-    const webhook = `https://us-central1-indietrails-test-db.cloudfunctions.net/test/${order}/${explorer}/${trailId}`;
+    const webhook = `https://us-central1-indietrails-db.cloudfunctions.net/mollie_webhook/${order}/${explorer}/${trailId}`;
 
     console.log(webhook);
 
