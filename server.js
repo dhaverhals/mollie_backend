@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
 })
 
 const _mollie = Mollie({
-    apiKey: 'test_m8qj9mcpP7B36NDKSaKdhzrFPvMvEq'
+    apiKey: 'live_xf2AR8KyUUkSsyU23DFdCPc5d8BGQ5'
 });
 
 app.get('/:trail/:explorer', (req, res) => {
