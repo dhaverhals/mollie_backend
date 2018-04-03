@@ -67,7 +67,7 @@ app.get('/:trail/:explorer', (req, res) => {
     const total = update ? hire : (amount + hire);
     const descr = update ? `Indie Trails | Laptop voor de ${trail}: ${order}` : (hire != 0 ? `Indie Trails | ${trail} met laptop: ${order}` : `Indie Trails | ${trail} zonder laptop: ${order}`)
     console.log("total: " + total);
-    const webhook = `http://someweirdwebsitedennishaverhals.nl/mollie/webhook/${order}/${explorer}/${trailId}/`;
+    const webhook = `http://dennishaverhals.nl/mollie/webhook/${order}/${explorer}/${trailId}/`;
 
     console.log(webhook);
 
