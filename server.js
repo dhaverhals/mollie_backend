@@ -107,7 +107,7 @@ app.get('/:order', (req, res) => {
     const order = req.params['order'];
     const _payment = req.query.payment;
 
-    _mollie.payments.get(_payment, {'testmode': true}).then((payment) => {
+    _mollie.payments.get(_payment).then((payment) => {
 
         if (payment.isPaid()) {
             res.send({
