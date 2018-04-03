@@ -74,7 +74,7 @@ app.get('/:trail/:explorer', (req, res) => {
     _mollie.payments.create({
         amount: total,
         description: descr,
-        redirectUrl: `http://localhost:4200/redirect/${order}`,
+        redirectUrl: `https://indietrails.nl/signup/`,
         webhookUrl: webhook,
         metadata: {
             order,
